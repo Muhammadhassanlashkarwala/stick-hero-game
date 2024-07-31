@@ -53,10 +53,54 @@ const heroWidth = 17;    //24
 const heroHeight = 30;  //40
 
 const canvas = document.getElementById("game");
-canvas.width = window.innerWidth;  // Make the Canvas full screen.   width:778
-// console.log(canvas.width); 
+canvas.width = window.innerWidth;  // Make the Canvas full screen.   width:778 
 canvas.height = window.innerHeight;          // height:650
-// console.log(canvas.height);  
 
 const ctx = canvas.getContext("2d")
 console.log(ctx);
+
+const introductionElement = document.getElementById("introduction");
+const restartButton = document.getElementById("restart");
+const scoreElement = document.getElementById("score");
+const perfectElement = document.getElementById("perfect");
+
+//Initialize layout
+resetGame();
+
+// Resets game variables and layouts but does not start the game (game starts on keypress)
+function resetGame() {
+    score = 0;
+    sceneOffset = 0;
+    lastTimestamp = undefined;
+    phase = "waiting";
+
+    introductionElement.style.opacity = 1;
+  restartButton.style.display = "none";
+  scoreElement.innerText = score;
+ perfectElement.style.opacity = 0;
+
+// The first platform is always the same 
+// x + w has to match paddingX
+platforms = [{ x:50, w:50 }];
+generatePlatform();
+generatePlatform();
+generatePlatform();
+generatePlatform();
+generatePlatform();
+
+sticks = [{ x:platforms[0].x + platforms[0].w,
+length: 0, rotation:0 }];
+
+trees = [];
+generateTree();
+generateTree();
+generateTree();
+generateTree();
+generateTree();
+generateTree();
+generateTree();
+generateTree();
+generateTree();
+generateTree();
+}
+
