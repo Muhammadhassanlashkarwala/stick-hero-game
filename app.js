@@ -136,5 +136,78 @@ function generatePlatform() {
     const maximumWidth = 100;
 
     // X coordinate of the rigth edge of the furthest platform
-    
+    const lastPlatform = platforms[platforms.length - 1]
+    let furthestX = lastPlatform.x + lastPlatform.w ;
+
+    const x = 
+    furthestX +
+    minimumGap +
+    Math.floor(Math.random() * (maximumGap - minimumGap));
+
+    const w =
+    minimumWidth + Math.floor(Math.random() * (maximumGap - minimumGap));
+
+    platforms.push({ x, w});
 }
+
+resetGame();
+
+// If space was pressed restart the game
+window.addEventListener("keydown" , (e)=>{
+  if (e.key == " ") {
+    e.preventDefault();
+    resetGame();
+    return;
+  }
+});
+
+window.addEventListener("mousedown" , (e)=>{
+  if (phase == "waiting") {
+    lastTimestamp = undefined;
+    introductionElement.style.opacity = 0;
+    phase = "stretching";
+    window.requestAnimationFrame(animate);
+  }
+});
+
+window.addEventListener("mouseup" , (e)=>{
+    if (phase == "stretching") {
+     phase = "turning";
+    }
+  });
+
+  window.addEventListener("rezise" , (e)=>{
+   canvas.width = window.innerWidth;
+   canvas.hieght = window.innerHeight;
+   draw();
+  });
+
+  window.requestAnimationFrame(animate);
+
+  // This is a main loop of game
+
+  function animate(timestamp) {
+    if (!lastTimestamp) {
+        lastTimestamp = timestamp;
+        window.requestAnimationFrame(animate);
+        return;
+    }
+  };
+
+  switch (phase) {
+    case "waiting":
+        return;   //stop the loop
+        case "stretching": {
+      sticks.last().length += (timestamp - lastTimestamp) / stretchingSpeed;
+      break;
+        }   
+        case "turning": {
+            sticks.last().rotation += (timestamp - lastTimestamp) / turningSpeed;
+           
+            if (sticks.last().rotation > 90) {
+                sticks.last().rotation = 90;
+
+                const[nextPlatform, perfectHit] = thePlatformTheStickHits();
+            }
+              }   
+  }
