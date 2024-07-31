@@ -112,10 +112,29 @@ draw();
 function generateTree() {
     minimumGap  = 30;
     maximumGap = 150;
-}
+
 
 // X coordinate of the rigth edge of the furthest tree
 const lastTree = trees[trees.length - 1];
 const furthestX = lastTree ? lastTree.x : 0;
 
-const x = 0
+const x = 
+furthestX +
+minimumGap +
+Math.floor(Math.random() * (maximumGap - minimumGap));
+
+const treeColors = ["#6D8821" , "#8FAC34" , "#98B333"];
+
+const color = treeColors [Math.floor(Math.random() *3)];
+
+trees.push({ x, color});
+}
+function generatePlatform() {
+    const minimumGap = 40;
+    const maximumGap = 200;
+    const minimumWidth = 20;
+    const maximumWidth = 100;
+
+    // X coordinate of the rigth edge of the furthest platform
+    
+}
