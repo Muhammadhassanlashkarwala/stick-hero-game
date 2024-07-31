@@ -13,8 +13,8 @@ Math.sinus = function (degree) {
 let phase = "waiting";   // waiting | stretching | turning | walking | trasitioning | falling
 let lastTimestamp ;    //The timestamp of the previous requestAnimationFrame cycle.
 
-let HeroX ;    // Changes when moving forward
-let HeroY ;    // Only changes when falling
+let heroX ;    // Changes when moving forward
+let heroY ;    // Only changes when falling
 let sceneOffset ;  // Moves the whole game
 
 let platforms = [];
@@ -102,5 +102,20 @@ generateTree();
 generateTree();
 generateTree();
 generateTree();
+
+heroX = platforms[0].x + platforms[0].w - heroDistanceFromEdge;
+heroY = 0;
+
+draw();
 }
 
+function generateTree() {
+    minimumGap  = 30;
+    maximumGap = 150;
+}
+
+// X coordinate of the rigth edge of the furthest tree
+const lastTree = trees[trees.length - 1];
+const furthestX = lastTree ? lastTree.x : 0;
+
+const x = 0
