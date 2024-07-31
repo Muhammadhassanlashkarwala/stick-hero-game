@@ -208,6 +208,12 @@ window.addEventListener("mouseup" , (e)=>{
                 sticks.last().rotation = 90;
 
                 const[nextPlatform, perfectHit] = thePlatformTheStickHits();
+                if (nextPlatform) {
+                    //Increase score
+                    score += perfectHit ? 2 : 1 ;
+                    scoreElement.innerText = score;
+                }
+
             }
               }   
   }
