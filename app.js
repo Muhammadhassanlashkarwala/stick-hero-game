@@ -299,6 +299,130 @@ window.addEventListener("mouseup" , (e)=>{
                  }
             };
             function draw() {
-              
+              ctx.save();
+              ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+              drawBackground();
+
+              // Center main canvas area to the middle of the screen
+              ctx.translate(
+                (window.innerWidth - canvasWidth) / 2 - sceneOffset,
+                (window.innerHeight - canvasHeight) / 2
+              );
+
+           // Draw scene
+              drawPlatforms();
+              drawHero();
+              drawSticks();
+
+              // Restore transformation
+              ctx.restore();
             }
+
+            restartButton.addEventListener("click" , (e) =>{
+                 e.preventDefault();
+                 resetGame();
+                 restartButton.style.display = "none"; 
+            });
+
+            function drawPlatforms() {
+              platformHeight.forEach(({ x, w })=>{
+                // Draw Platform
+                ctx.fillStyle = "black";
+                ctx.fillRect(
+                  x,
+                  canvasHeight - platformHeight,
+                  w,
+                  platformHeight + (window.innerHeight - canvasHeight) / 2
+                );
+
+                  // Draw perfect area only if hero did not yet reach the platform
+                  if (sticks.last().x < w) {
+                    ctx.fillStyle = "red";
+                    ctx.fillRect(
+                      x + w / 2 - perfectAreaSize / 2,
+                      canvasHeight - platformHeight,
+                      perfectAreaSize,
+                      perfectAreaSize
+                    );
+                  }
+              });
+            }
+
+            function drawHero() {
+              ctx.save();
+              ctx.fillStyle = "black";
+              ctx.translate(heroX - heroWidth / 2, heroY + canvasHeight - platformHeight - heroHeight / 2);
+
+              // Body
+              drawRoundedRect( -heroWidth / 2, -heroHeight / 2, heroWidth, heroHeight - 4, 5);
+
+              // Legs
+              const legDistance = 5;
+              ctx.beginPath();
+              ctx.arc(legDistance, 11.5, 3, 0, Math.PI * 2, false);
+              ctx.fill();
+              ctx.beginPath();
+              ctx.arc(-legDistance, 11.5, 3, 0, Math.PI * 2, false);
+              ctx.fill();
+
+              // Eye
+              ctx.beginPath();
+              ctx.fillStyle = "white";
+              ctx.arc(5, -7, 3, 0, Math.PI * 2, false);
+              ctx.fill();
+
+              // Band 
+              ctx.fillStyle = "red";
+              ctx.fillRect(-heroWidth / 2 - 1, -12, heroWidth + 2, 4.5);
+              ctx.beginPath();
+              ctx.moveTo(-9, -14.5);
+              ctx.lineTo(-17, -18.5);
+              ctx.fill(-14, -8.5);
+              ctx.beginPath();
+              ctx.moveTo(-10, -10.5);
+              ctx.lineTo(-15, -3.5);
+              ctx.lineTo(-5, -7);
+              ctx.fill();
+
+              ctx.restore();
           }
+        function drawRoundedRect(x, y, width, height, radius) {
+          ctx.beginPath();
+          ctx.moveTo(x, y + radius);
+          ctx.lineTo(x, y + height - radius);
+          ctx.arcTo(x, y + height, x + radius, y + height, radius);
+          ctx.lineTo(x + width - radius, y + height);
+          ctx.arcTo(x + width, y + height, x + width, y + height - radius, radius);
+          ctx.lineTo(x + width, y + radius);
+          ctx.arcTo(x + width, y, x + width - radius, y, radius);
+          ctx.lineTo(x + radius, y);
+          ctx.arcTo(x, y, x, y + radius, radius);
+          ctx.fill();
+        };
+
+        function drawSticks() {
+          sticks.forEach((stick) => {
+            ctx.save
+
+            // Move the anchor point to the stick of the stick and rotate
+            ctx.translate(stick.x, canvasHeight - platformHeight);
+            ctx.rotate((Math.PI / 180) * stick.rotation);
+
+            // draw Stick
+           ctx.beginPath();
+           ctx.lineWidth = 2;
+           ctx.moveTo(0, 0);
+           ctx.lineTo(0, -stick.length);
+           ctx.stroke();
+
+           // Restore transformation
+           ctx.restore();
+          });
+        }
+
+
+        function drawBackground() {
+          // Draw sky
+        }
+        }
