@@ -424,5 +424,12 @@ window.addEventListener("mouseup" , (e)=>{
 
         function drawBackground() {
           // Draw sky
+          var gradient = ctx.createLinearGradient(0, 0, 0, window.innerHeight);
+          gradient.addColorStop(0, "#BBD691");
+          gradient.addColorStop(1, "#FEF1E1");
+          ctx.fillStyle =  gradient;
+          ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+
+          // Draw hills
         }
         }
