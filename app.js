@@ -207,7 +207,7 @@ window.addEventListener("mouseup" , (e)=>{
             if (sticks.last().rotation > 90) {
                 sticks.last().rotation = 90;
 
-                const[nextPlatform, perfectHit] = thePlatformTheStickHits();
+                const[nextPlatform, perfectHit] = PlatformTheStickHits();
                 if (nextPlatform) {
                     //Increase score
                     score += perfectHit ? 2 : 1 ;
@@ -227,7 +227,7 @@ window.addEventListener("mouseup" , (e)=>{
               }   
               case "walking" : {
                 heroX += (timestamp - lastTimestamp) / walkingSpeed;
-                const [nextPlatform] = thePlatformTheStickHits();
+                const [nextPlatform] = PlatformTheStickHits();
                 if (nextPlatform) {
                   // If hero will reach another platform then limit it's position at it's edge
                   const maxHeroX = nextPlatform.x + nextPlatform.w - heroDistanceFromEdge;
@@ -247,7 +247,7 @@ window.addEventListener("mouseup" , (e)=>{
               }
               case "transitioning" : {
                 sceneOffset += (timestamp - lastTimestamp) / transitioningSpeed;
-                const [nextPlatform] = thePlatformTheStickHits();
+                const [nextPlatform] = PlatformTheStickHits();
                 if (sceneOffset > nextPlatform.x + nextPlatform.w - paddingX) {
                   // Add the next step 
                   sticks.push({
@@ -280,3 +280,25 @@ window.addEventListener("mouseup" , (e)=>{
             lastTimestamp = timestamp ;
           };     
   
+          // Returns the platform the stick hit (if it didn't hit any stick then return undefined)
+
+          function PlatformTheStickHits() {
+            if (sticks.last().rotation != 90) {
+              throw Error(`Sticks is ${sticks.last().rotation}°`);
+              const stickFarX = sticks.last().x + sticks.last().length;
+
+              const PlatformTheStickHits = platforms.find((platform)=> platform.x < stickFarX < platform.x + platform.w);
+              
+                // If the stick hits the perfect area
+                 if (PlatformTheStickHits && PlatformTheStickHits.x + PlatformTheStickHits.w / 2 - perfectAreaSize /  2 < stickFarX &&
+                stickFarX < PlatformTheStickHits.x + PlatformTheStickHits.w / 2 + perfectAreaSize /  2) 
+                return [PlatformTheStickHits, true];
+                return [PlatformTheStickHits, false];
+                {
+                  
+                 }
+            };
+            function draw() {
+              
+            }
+          }
