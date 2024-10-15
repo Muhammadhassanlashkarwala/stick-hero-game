@@ -115,7 +115,6 @@ function generateTree() {
   // X coordinate of the right edge of the furthest tree
   const lastTree = trees[trees.length - 1];
   let furthestX = lastTree ? lastTree.x : 0;
-
   const x =
     furthestX +
     minimumGap +
